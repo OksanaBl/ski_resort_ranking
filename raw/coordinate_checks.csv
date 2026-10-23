@@ -1,0 +1,5 @@
+source_id,source_name,method,url,collected_at,data_period,indicators,file_path,transformations,notes
+resorts,Справочник курортов (материалы проекта),project_materials,,2026-09-14,снимок на 2026-09-14,"resort_id, name_ru,region, latitude, longitude, coordinate_quality, piste_segments_6km,lift_lines_6km,lodging_objects_6km,food_objects_6km,transport_objects_6km,attraction_objects_6km, osm_radius_km, osm_overlap_warning, nearest_airport_iata, nearest_airport_distance_km, quality_flags",raw/resorts.json,"нет, файл скопирован без изменений","Дата сбора в формате Excel, погодные условия из файла не используются. Первоисточники (Википедия и Wikidata для координат, OpenStreetMap Overpass для объектов в радиусе 6 км, OurAirports для аэропортов)"
+open_meteo,Open-Meteo Historical Weather API,own_api,https://archive-api.open-meteo.com/v1/archive,2026-10-20,2021-11-01 - 2026-04-30,"temperature_2m_mean, snowfall_sum",raw/weather,"нет, ответ API сохранён без изменений в конверте с метаданными","ERA5 вместо ERA5 Land из ТЗ, так как в модели ERA5 Land отсутствовали данные по снегопадам"
+
+
