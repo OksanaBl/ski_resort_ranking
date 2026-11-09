@@ -4,13 +4,15 @@ import requests
 import time
 from datetime import datetime
 
+from utils import load_resort_locations
+
 URL = 'https://archive-api.open-meteo.com/v1/archive'
 MODELS = 'era5'
 DAILY = ['temperature_2m_mean', 'snowfall_sum']
 START_DATE = '2021-11-01'
 END_DATE = '2026-04-30'
 
-def get_meteo_data(resort_id, latitude, longitude):
+def fetch_meteo_data(resort_id, latitude, longitude):
     params = {
         'latitude': latitude,
         'longitude': longitude,
@@ -37,27 +39,13 @@ def get_meteo_data(resort_id, latitude, longitude):
             time.sleep(30)
     return False
 
-def load_resort_locations():
-    with open('raw/resorts.json', 'r', encoding='utf-8') as f:
-        resorts = json.load(f)
-    resort_locations = []
-    resort_id_index = resorts[0].index('resort_id')
-    latitude_index = resorts[0].index('latitude')
-    longitude_index = resorts[0].index('longitude')
-    for resort in resorts[1:]:
-        resort_id = resort[resort_id_index]
-        latitude = resort[latitude_index]
-        longitude = resort[longitude_index]
-        resort_location = (resort_id, latitude, longitude)
-        resort_locations.append(resort_location)
-    return resort_locations
 
 os.makedirs('raw/weather', exist_ok=True)
 unprocessed_resorts = []
 processed_resorts = 0
 total_resorts = load_resort_locations()
 for resort_id, latitude, longitude in total_resorts:
-    success = get_meteo_data(resort_id, latitude, longitude)
+    success = fetch_meteo_data(resort_id, latitude, longitude)
     time.sleep(1)
     if success is False:
         unprocessed_resorts.append(resort_id)
@@ -67,6 +55,11 @@ if unprocessed_resorts:
     print(f'Не обработано {len(unprocessed_resorts)} курортов: {unprocessed_resorts} из {len(total_resorts)}')
 else:
     print(f'Обработаны все курорты ({processed_resorts} из {len(total_resorts)}), ошибок нет')
+
+
+
+
+
 
 
 
